@@ -1,12 +1,12 @@
-import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
-import React from 'react';
+import Navbar from "@/components/layouts/navbar";
+import Sidebar from "@/components/layouts/sidebar";
+import React from "react";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Navbar />
-      <div className="relative max-w-screen-xl mx-auto flex">
+      <div className="relative">
         <Sidebar />
 
         <main className="flex-1 p-5">{children}</main>

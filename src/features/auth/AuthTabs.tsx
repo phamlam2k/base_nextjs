@@ -1,13 +1,15 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tab';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../../components/ui/tab";
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
 
 function AuthTabs() {
   return (
-    <Tabs
-      defaultValue="login"
-      className="w-[400px]"
-    >
+    <Tabs defaultValue="login" className="w-[400px]">
       <TabsList className="w-full grid grid-cols-2">
         <TabsTrigger value="login">Login</TabsTrigger>
         <TabsTrigger value="register">Register</TabsTrigger>

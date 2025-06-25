@@ -1,5 +1,5 @@
-'use client';
-import React from 'react';
+"use client";
+import React from "react";
 
 import {
   LayoutDashboard,
@@ -10,9 +10,8 @@ import {
   CreditCard,
   ArrowLeftToLineIcon,
   ArrowRightToLineIcon,
-} from 'lucide-react';
-import Link from 'next/link';
-import { Button } from './ui/button';
+} from "lucide-react";
+import Link from "next/link";
 import {
   Command,
   CommandEmpty,
@@ -22,12 +21,13 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from './ui/command';
+} from "../ui/command";
+import { Button } from "../ui/button";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = React.useState(true);
-  const displayState = isOpen ? 'block' : 'hidden';
-  const buttonPosition = isOpen ? 'right-0' : 'left-0';
+  const displayState = isOpen ? "block" : "hidden";
+  const buttonPosition = isOpen ? "right-0" : "left-0";
 
   return (
     <>
@@ -47,28 +47,19 @@ const Sidebar = () => {
           <CommandGroup heading="Suggestions">
             <CommandItem>
               <LayoutDashboard className="mr-2 h-4 w-4" />
-              <Link
-                href="/"
-                onClick={() => setIsOpen(!isOpen)}
-              >
+              <Link href="/" onClick={() => setIsOpen(!isOpen)}>
                 Dashboard
               </Link>
             </CommandItem>
             <CommandItem>
               <Newspaper className="mr-2 h-4 w-4" />
-              <Link
-                href="/posts"
-                onClick={() => setIsOpen(!isOpen)}
-              >
+              <Link href="/posts" onClick={() => setIsOpen(!isOpen)}>
                 Posts
               </Link>
             </CommandItem>
             <CommandItem>
               <Folders className="mr-2 h-4 w-4" />
-              <Link
-                href="/categories"
-                onClick={() => setIsOpen(!isOpen)}
-              >
+              <Link href="/categories" onClick={() => setIsOpen(!isOpen)}>
                 Categories
               </Link>
             </CommandItem>
@@ -77,30 +68,21 @@ const Sidebar = () => {
           <CommandGroup heading="Settings">
             <CommandItem>
               <User className="mr-2 h-4 w-4" />
-              <Link
-                href="/profile"
-                onClick={() => setIsOpen(!isOpen)}
-              >
+              <Link href="/profile" onClick={() => setIsOpen(!isOpen)}>
                 Profile
               </Link>
               <CommandShortcut>Cmd+P</CommandShortcut>
             </CommandItem>
             <CommandItem>
               <CreditCard className="mr-2 h-4 w-4" />
-              <Link
-                href="/billing"
-                onClick={() => setIsOpen(!isOpen)}
-              >
+              <Link href="/billing" onClick={() => setIsOpen(!isOpen)}>
                 Billing
               </Link>
               <CommandShortcut>Cmd+B</CommandShortcut>
             </CommandItem>
             <CommandItem>
               <Settings className="mr-2 h-4 w-4" />
-              <Link
-                href="/settings"
-                onClick={() => setIsOpen(!isOpen)}
-              >
+              <Link href="/settings" onClick={() => setIsOpen(!isOpen)}>
                 Settings
               </Link>
               <CommandShortcut>Cmd+S</CommandShortcut>

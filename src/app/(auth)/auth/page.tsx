@@ -1,12 +1,14 @@
-import AuthTabs from '@/components/auth/AuthTabs';
-import React from 'react';
+import AuthTabs from "@/features/auth/AuthTabs";
+import { Metadata } from "next";
+import React from "react";
+
+export const metadata: Metadata = {
+  title: "Authen",
+  description: "Logic Authen",
+};
 
 const AuthPage = () => {
-  return (
-    <>
-      <AuthTabs />
-    </>
-  );
+  return <AuthTabs />;
 };
 
 export default AuthPage;

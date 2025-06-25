@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import * as z from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import React from "react";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -11,25 +11,25 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+} from "../../components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().min(1, 'Email is required').email({
-    message: 'Invalid email address',
+  name: z.string().min(1, "Name is required"),
+  email: z.string().min(1, "Email is required").email({
+    message: "Invalid email address",
   }),
-  password: z.string().min(1, 'Password is required'),
-  confirmPassword: z.string().min(1, 'Confirm password is required'),
+  password: z.string().min(1, "Password is required"),
+  confirmPassword: z.string().min(1, "Confirm password is required"),
 });
 
 const RegisterForm = () => {
@@ -38,16 +38,16 @@ const RegisterForm = () => {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
   const handleSubmit = (data: z.infer<typeof schema>) => {
-    console.log('Form submitted:', data);
-    router.push('/');
+    console.log("Form submitted:", data);
+    router.push("/");
   };
 
   return (

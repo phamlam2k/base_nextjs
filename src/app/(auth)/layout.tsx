@@ -1,5 +1,5 @@
-import React from 'react';
-import { ThemeToggle } from '@/components/ThemeToggle';
+import { ThemeToggle } from "@/components/layouts/theme-toggle";
+import React from "react";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (

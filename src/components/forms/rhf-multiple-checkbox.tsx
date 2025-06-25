@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useFormContext, Controller } from 'react-hook-form';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { cn } from '@/lib/utils';
+import { useFormContext, Controller } from "react-hook-form";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 interface RHFMultiCheckboxProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
@@ -34,20 +34,17 @@ export function RHFMultiCheckbox({
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <div className={cn('space-y-2', className)}>
+        <div className={cn("space-y-2", className)}>
           {label && <p className="text-sm font-medium">{label}</p>}
 
           <div
-            className={cn('flex flex-wrap', {
-              'flex-row gap-x-4': row,
-              'flex-col': !row,
+            className={cn("flex flex-wrap", {
+              "flex-row gap-x-4": row,
+              "flex-col": !row,
             })}
           >
             {options.map((option) => (
-              <div
-                key={option.value}
-                className="flex items-center gap-2"
-              >
+              <div key={option.value} className="flex items-center gap-2">
                 <Checkbox
                   id={`${name}-${option.value}`}
                   checked={field.value?.includes(option.value)}

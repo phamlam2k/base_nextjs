@@ -1,50 +1,44 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-
-import { Button } from '@/components/ui/button';
+import React from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import RHFTextField from '@/shared/components/hook-form/rhf-input';
-import FormProvider from '@/shared/components/hook-form/form-provider';
+} from "@/components/ui/card";
+import RHFTextField from "@/components/forms/rhf-input";
+import loginSchema from "@/validations/auth/login.validation";
+import FormProvider from "@/providers/FormProvider";
 
-const schema = z.object({
-  email: z.string().min(1, 'Email is required').email('Invalid email address'),
-  password: z.string().min(1, 'Password is required'),
-});
+const defaultValues = {
+  email: "",
+  password: "",
+};
 
 const LoginForm = () => {
   const router = useRouter();
 
-  const methods = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
+  const methods = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+    defaultValues,
   });
 
   const { handleSubmit } = methods;
 
   const onSubmit = handleSubmit((data) => {
-    console.log('Form submitted:', data);
-    router.push('/'); // Redirect to home page after successful login
+    console.log("Form submitted:", data);
+    router.push("/"); // Redirect to home page after successful login
   });
 
   return (
-    <FormProvider
-      methods={methods}
-      onSubmit={onSubmit}
-    >
+    <FormProvider methods={methods} onSubmit={onSubmit}>
       <Card>
         <CardHeader>
           <CardTitle>Login</CardTitle>
