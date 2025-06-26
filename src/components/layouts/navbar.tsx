@@ -1,5 +1,10 @@
-import React from "react";
-import Link from "next/link";
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,15 +12,31 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { ThemeToggle } from "./theme-toggle";
+} from '../ui/dropdown-menu';
+import { ThemeToggle } from './theme-toggle';
+import { useLogout } from '@/services/auth/logout.api';
 
 const Navbar = () => {
+  const router = useRouter();
+  const { mutate: logout, isPending } = useLogout();
+
+  const handleLogout = () => {
+    logout(undefined, {
+      onSuccess: () => {
+        toast.success('Logged out successfully');
+        router.push('/auth');
+      },
+      onError: () => {
+        toast.error('Logout failed');
+      },
+    });
+  };
+
   return (
     <header className="bg-primary dark:bg-slate-700">
-      <nav className=" max-w-screen-xl mx-auto flex justify-between text-white  py-2 px-5 ">
-        <Link href={"/"}>Home</Link>
-        <div className=" flex items-center gap-4">
+      <nav className="max-w-screen-xl mx-auto flex justify-between text-white py-2 px-5">
+        <Link href="/">Home</Link>
+        <div className="flex items-center gap-4">
           <ThemeToggle />
 
           <DropdownMenu>
@@ -29,8 +50,14 @@ const Navbar = () => {
                 <Link href="/settings">Settings</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link href="/auth">Logout</Link>
+              <DropdownMenuItem asChild>
+                <button
+                  onClick={handleLogout}
+                  disabled={isPending}
+                  className="w-full text-left"
+                >
+                  {isPending ? 'Logging out...' : 'Logout'}
+                </button>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

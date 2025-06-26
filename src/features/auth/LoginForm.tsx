@@ -1,51 +1,65 @@
-"use client";
+'use client';
 
-import React from "react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Button } from "@/components/ui/button";
+import React from 'react';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { toast } from 'react-toastify';
+
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import RHFTextField from "@/components/forms/rhf-input";
-import loginSchema from "@/validations/auth/login.validation";
-import FormProvider from "@/providers/FormProvider";
+} from '@/components/ui/card';
+import RHFTextField from '@/components/forms/rhf-input';
+import loginSchema from '@/validations/auth/login.validation';
+import FormProvider from '@/providers/FormProvider';
+import { useLogin } from '@/services/auth/login.api';
 
 const defaultValues = {
-  email: "",
-  password: "",
+  email: '',
+  password: '',
 };
 
 const LoginForm = () => {
   const router = useRouter();
+  const { mutateAsync: login, isPending } = useLogin();
 
   const methods = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues,
   });
 
-  const { handleSubmit } = methods;
-
-  const onSubmit = handleSubmit((data) => {
-    console.log("Form submitted:", data);
-    router.push("/"); // Redirect to home page after successful login
+  const onSubmit = methods.handleSubmit(async (data) => {
+    try {
+      await login(data);
+      toast.success('Logged in successfully!');
+      router.push('/');
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error('An unexpected error occurred.');
+      }
+    }
   });
 
   return (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Card>
+    <FormProvider
+      methods={methods}
+      onSubmit={onSubmit}
+    >
+      <Card className="w-full max-w-md mx-auto shadow">
         <CardHeader>
           <CardTitle>Login</CardTitle>
           <CardDescription>Enter your credentials to login</CardDescription>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="space-y-4">
           <RHFTextField
             name="email"
             label="Email"
@@ -67,9 +81,10 @@ const LoginForm = () => {
 
           <Button
             type="submit"
+            disabled={isPending}
             className="w-full dark:bg-slate-800 dark:text-white"
           >
-            Login
+            {isPending ? 'Logging in...' : 'Login'}
           </Button>
         </CardContent>
       </Card>
