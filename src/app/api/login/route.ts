@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 export async function POST(request: Request) {
   const { email, password } = await request.json();
 
-  // Replace with real DB logic
   const user =
     email === 'admin@example.com' && password === 'admin123'
       ? { id: 1, email, role: 'admin' }
@@ -27,7 +26,7 @@ export async function POST(request: Request) {
       path: '/',
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 60 * 60 * 24, // 1 day
+      maxAge: 60 * 60 * 24,
     })
   );
 

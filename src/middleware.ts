@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import jwt from 'jsonwebtoken';
 
-const PUBLIC_ROUTES = ['/login', '/'];
+const PUBLIC_ROUTES = ['/auth', '/'];
 
 interface JwtPayload {
   id: string;
