@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { Controller, useFormContext } from "react-hook-form";
+import * as React from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 
-import { Command, CommandGroup, CommandItem } from "@/components/ui/command";
-import { Checkbox } from "@/components/ui/checkbox";
-import { FieldTitle } from "../ui/field-title";
-import { cn } from "@/lib/utils";
+import { Command, CommandGroup, CommandItem } from '@/components/ui/command';
+import { Checkbox } from '@/components/ui/checkbox';
+import { FieldTitle } from '../ui/field-title';
+import { cn } from '@/lib/utils';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { TBaseFieldProps } from "../../shared/components/hook-form/type";
+} from '@/components/ui/popover';
+import { TBaseFieldProps } from '@/types/forms.type';
 
 type TOptionItem = {
   label: string;
@@ -35,7 +35,7 @@ export function RHFMultiSelect({
   name,
   options,
   title,
-  placeholder = "Select...",
+  placeholder = 'Select...',
   helperText,
   isRequire,
   checkbox = true,
@@ -45,7 +45,12 @@ export function RHFMultiSelect({
 
   return (
     <div className="flex flex-col gap-1">
-      {title && <FieldTitle title={title} required={isRequire} />}
+      {title && (
+        <FieldTitle
+          title={title}
+          required={isRequire}
+        />
+      )}
       <Controller
         name={name}
         control={control}
@@ -64,9 +69,9 @@ export function RHFMultiSelect({
               <Popover>
                 <PopoverTrigger
                   className={cn(
-                    "w-full border rounded-md px-3 py-2 text-left text-sm",
-                    "hover:bg-accent hover:text-accent-foreground",
-                    error && "border-destructive focus-visible:ring-destructive"
+                    'w-full border rounded-md px-3 py-2 text-left text-sm',
+                    'hover:bg-accent hover:text-accent-foreground',
+                    error && 'border-destructive focus-visible:ring-destructive'
                   )}
                 >
                   {selectedValues.length === 0 ? (
@@ -88,7 +93,7 @@ export function RHFMultiSelect({
                     options
                       .filter((opt) => selectedValues.includes(opt.value))
                       .map((opt) => opt.label)
-                      .join(", ")
+                      .join(', ')
                   )}
                 </PopoverTrigger>
                 <PopoverContent className="w-full p-0">
