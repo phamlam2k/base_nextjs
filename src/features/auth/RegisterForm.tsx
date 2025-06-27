@@ -153,6 +153,7 @@ const RegisterForm = () => {
             />
 
             <Button
+              style={{ marginTop: '2rem' }}
               type="submit"
               disabled={isPending}
               className="w-full dark:bg-slate-800 dark:text-white"

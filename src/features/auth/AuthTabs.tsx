@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import {
   Tabs,
   TabsContent,
@@ -8,28 +11,52 @@ import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
 function AuthTabs() {
+  const [tabValue, setTabValue] = useState('login');
+
   return (
-    <Tabs
-      defaultValue="login"
-      className="w-[400px]"
+    <div
+      className="
+        mx-auto 
+        p-4 
+        rounded 
+        shadow 
+  
+      "
+      style={{ width: '500px', height: '600px' }}
     >
-      <TabsList className="w-full grid grid-cols-2">
-        <TabsTrigger value="login">Login</TabsTrigger>
-        <TabsTrigger value="register">Register</TabsTrigger>
-      </TabsList>
-      <TabsContent
-        value="login"
-        className="mt-4"
+      <Tabs
+        value={tabValue}
+        onValueChange={setTabValue}
+        className="w-full"
       >
-        <LoginForm />
-      </TabsContent>
-      <TabsContent
-        value="register"
-        className="mt-4"
-      >
-        <RegisterForm />
-      </TabsContent>
-    </Tabs>
+        <TabsList className="w-full grid grid-cols-2 gap-2 mb-2">
+          <TabsTrigger
+            data-testid="login-tab"
+            value="login"
+          >
+            Login
+          </TabsTrigger>
+          <TabsTrigger
+            data-testid="register-tab"
+            value="register"
+          >
+            Register
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent
+          value="login"
+          className="p-4 rounded bg-slate-400 dark:bg-zinc-800 shadow"
+        >
+          <LoginForm />
+        </TabsContent>
+        <TabsContent
+          value="register"
+          className="p-4 rounded bg-slate-400 dark:bg-zinc-800 shadow"
+        >
+          <RegisterForm />
+        </TabsContent>
+      </Tabs>
+    </div>
   );
 }
 

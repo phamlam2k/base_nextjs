@@ -53,7 +53,7 @@ const LoginForm = () => {
       methods={methods}
       onSubmit={onSubmit}
     >
-      <Card className="w-full max-w-md mx-auto shadow">
+      <Card className="w-full max-w-md mx-auto shadow ">
         <CardHeader>
           <CardTitle>Login</CardTitle>
           <CardDescription>Enter your credentials to login</CardDescription>
@@ -66,7 +66,7 @@ const LoginForm = () => {
             title="Email"
             isRequire
             placeholder="Enter email..."
-            className="bg-slate-100 dark:bg-slate-500 border-0 focus-visible:ring-0 text-black dark:text-white focus-visible:ring-offset-0"
+            className="bg-slate-100 dark:bg-slate-500 border-0 focus-visible:ring-0 text-black dark:text-white focus-visible:ring-offset-0 m-2"
           />
 
           <RHFTextField
@@ -80,6 +80,7 @@ const LoginForm = () => {
           />
 
           <Button
+            style={{ marginTop: '2rem' }}
             type="submit"
             disabled={isPending}
             className="w-full dark:bg-slate-800 dark:text-white"
