@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import * as React from "react";
@@ -8,6 +9,7 @@ import {
   getPaginationRowModel,
   OnChangeFn,
   RowSelectionState,
+  TableState,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -25,29 +27,40 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trash2 } from "lucide-react";
 import { Pagination } from "@/components/ui/pagination";
 
+declare module "@tanstack/react-table" {
+  //allows us to define custom properties for our columns
+  interface TableState {
+    pagination: {
+      pageIndex: number;
+      pageSize: number;
+      totalCount?: number;
+    };
+  }
+}
+
 export interface DataTableProps<TData> {
-  columns: ColumnDef<TData>[];
+  columns: ColumnDef<any>[];
   data: TData[];
-  value?: RowSelectionState;
+  state?: Partial<TableState>;
   onChange?: OnChangeFn<RowSelectionState>;
   title?: string;
   helperText?: string;
   checkedId?: keyof TData;
-  onDeleteSelected?: (ids: TData[keyof TData][]) => void;
+  onDeleteSelected?: (ids: string[]) => void;
 }
 
-export interface DataTableRef<TData> {
-  getSelectedRowIds: () => TData[keyof TData][];
+export interface DataTableRef {
+  getSelectedRowIds: () => string[];
 }
 
 function DataTable<TData>(
   props: DataTableProps<TData>,
-  ref: React.ForwardedRef<DataTableRef<TData>>
+  ref: React.ForwardedRef<DataTableRef>
 ) {
   const {
     columns,
     data,
-    value,
+    state,
     onChange,
     title = "Table List",
     helperText,
@@ -58,9 +71,7 @@ function DataTable<TData>(
   const table = useReactTable({
     data,
     columns,
-    state: {
-      rowSelection: value ?? {},
-    },
+    state,
     onRowSelectionChange: onChange,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -75,7 +86,7 @@ function DataTable<TData>(
             .flatRows.map((row) => row.original[checkedId])
         : [],
     [table, checkedId]
-  );
+  ) as string[];
 
   React.useImperativeHandle(ref, () => ({
     getSelectedRowIds: () => selectedRowIds,

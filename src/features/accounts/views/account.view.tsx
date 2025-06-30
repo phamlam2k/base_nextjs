@@ -5,12 +5,23 @@ import useAccountController from "../controllers/account.controller";
 import useGetColumnsData from "../hooks/useGetColumnsData";
 
 const AccountView = () => {
-  const { tableRef, accountListData } = useAccountController();
+  const { tableRef, filter, accountListData } = useAccountController();
   const columns = useGetColumnsData();
 
   return (
     <div>
-      <DataTable ref={tableRef} columns={columns} data={accountListData} />
+      <DataTable
+        ref={tableRef}
+        state={{
+          pagination: {
+            pageIndex: filter.page,
+            pageSize: filter.pageSize,
+            totalCount: accountListData.length,
+          },
+        }}
+        columns={columns}
+        data={accountListData}
+      />
     </div>
   );
 };
