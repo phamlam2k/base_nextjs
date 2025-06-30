@@ -2,9 +2,12 @@
 
 import * as React from "react";
 import {
+  ColumnDef,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  OnChangeFn,
+  RowSelectionState,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -21,17 +24,37 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trash2 } from "lucide-react";
 import { Pagination } from "@/components/ui/pagination";
-import { DataTableProps } from "./data-table.type";
 
-export function DataTable<TData extends { id: string }, TValue>({
-  columns,
-  data,
-  value,
-  onChange,
-  title = "Table List",
-  helperText,
-  onDeleteSelected,
-}: DataTableProps<TData, TValue>) {
+export interface DataTableProps<TData> {
+  columns: ColumnDef<TData>[];
+  data: TData[];
+  value?: RowSelectionState;
+  onChange?: OnChangeFn<RowSelectionState>;
+  title?: string;
+  helperText?: string;
+  checkedId?: keyof TData;
+  onDeleteSelected?: (ids: TData[keyof TData][]) => void;
+}
+
+export interface DataTableRef<TData> {
+  getSelectedRowIds: () => TData[keyof TData][];
+}
+
+function DataTable<TData>(
+  props: DataTableProps<TData>,
+  ref: React.ForwardedRef<DataTableRef<TData>>
+) {
+  const {
+    columns,
+    data,
+    value,
+    onChange,
+    title = "Table List",
+    helperText,
+    onDeleteSelected,
+    checkedId,
+  } = props;
+
   const table = useReactTable({
     data,
     columns,
@@ -45,9 +68,18 @@ export function DataTable<TData extends { id: string }, TValue>({
   });
 
   const selectedRowIds = React.useMemo(
-    () => table.getSelectedRowModel().flatRows.map((row) => row.original.id),
-    [table]
+    () =>
+      checkedId
+        ? table
+            .getSelectedRowModel()
+            .flatRows.map((row) => row.original[checkedId])
+        : [],
+    [table, checkedId]
   );
+
+  React.useImperativeHandle(ref, () => ({
+    getSelectedRowIds: () => selectedRowIds,
+  }));
 
   return (
     <Card>
@@ -133,3 +165,7 @@ export function DataTable<TData extends { id: string }, TValue>({
     </Card>
   );
 }
+
+DataTable.displayName = "DataTable";
+
+export default React.forwardRef(DataTable);

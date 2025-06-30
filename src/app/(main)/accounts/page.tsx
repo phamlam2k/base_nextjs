@@ -1,10 +1,7 @@
+import AccountView from "@/features/accounts/views/account.view";
+
 const AccountsPage = () => {
-  return (
-    <div>
-      <h1>Accounts Page</h1>
-      <p>This is the accounts page.</p>
-    </div>
-  );
+  return <AccountView />;
 };
 
 export default AccountsPage;
