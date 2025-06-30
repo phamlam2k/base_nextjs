@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
+import React from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 import {
   DropdownMenu,
@@ -12,22 +12,22 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
-import { ThemeToggle } from './theme-toggle';
-import { useLogout } from '@/services/auth/logout.api';
+} from "../ui/dropdown-menu";
+import { ThemeToggle } from "./theme-toggle";
+import { useLogoutMutate } from "@/services/auth/auth.api";
 
 const Navbar = () => {
   const router = useRouter();
-  const { mutate: logout, isPending } = useLogout();
+  const { mutate: logout, isPending } = useLogoutMutate();
 
   const handleLogout = () => {
     logout(undefined, {
       onSuccess: () => {
-        toast.success('Logged out successfully');
-        router.push('/auth');
+        toast.success("Logged out successfully");
+        router.push("/auth");
       },
       onError: () => {
-        toast.error('Logout failed');
+        toast.error("Logout failed");
       },
     });
   };
@@ -56,7 +56,7 @@ const Navbar = () => {
                   disabled={isPending}
                   className="w-full text-left"
                 >
-                  {isPending ? 'Logging out...' : 'Logout'}
+                  {isPending ? "Logging out..." : "Logout"}
                 </button>
               </DropdownMenuItem>
             </DropdownMenuContent>

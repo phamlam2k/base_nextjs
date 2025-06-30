@@ -1,15 +1,12 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
-  RowSelectionState,
-  OnChangeFn,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -18,29 +15,20 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Trash2 } from 'lucide-react';
-import { Pagination } from '@/components/ui/pagination';
-
-export interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  value?: RowSelectionState;
-  onChange?: OnChangeFn<RowSelectionState>;
-  title?: string;
-  helperText?: string;
-  onDeleteSelected?: (ids: string[]) => void;
-}
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Trash2 } from "lucide-react";
+import { Pagination } from "@/components/ui/pagination";
+import { DataTableProps } from "./data-table.type";
 
 export function DataTable<TData extends { id: string }, TValue>({
   columns,
   data,
   value,
   onChange,
-  title = 'Table List',
+  title = "Table List",
   helperText,
   onDeleteSelected,
 }: DataTableProps<TData, TValue>) {
@@ -55,9 +43,11 @@ export function DataTable<TData extends { id: string }, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     enableRowSelection: true,
   });
-  const selectedRowIds = table
-    .getSelectedRowModel()
-    .flatRows.map((row) => row.original.id);
+
+  const selectedRowIds = React.useMemo(
+    () => table.getSelectedRowModel().flatRows.map((row) => row.original.id),
+    [table]
+  );
 
   return (
     <Card>
@@ -99,7 +89,7 @@ export function DataTable<TData extends { id: string }, TValue>({
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
-                    data-state={row.getIsSelected() && 'selected'}
+                    data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
@@ -127,7 +117,7 @@ export function DataTable<TData extends { id: string }, TValue>({
 
         <div className="flex items-center justify-between space-x-2 py-4">
           <div className="text-sm text-muted-foreground">
-            Page {table.getState().pagination.pageIndex + 1} of{' '}
+            Page {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}
           </div>
           <Pagination

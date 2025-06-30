@@ -1,4 +1,4 @@
-import AuthTabs from "@/features/auth/AuthTabs";
+import AuthView from "@/features/auth/views/auth.view";
 import { Metadata } from "next";
 import React from "react";
 
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const AuthPage = () => {
-  return <AuthTabs />;
+  return <AuthView />;
 };
 
 export default AuthPage;

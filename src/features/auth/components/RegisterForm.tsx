@@ -1,9 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import * as z from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -11,49 +10,50 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
-import { useRegister } from '@/services/auth/register.api';
-import registerSchema from '@/validations/auth/register.validation';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { useRegisterMutate } from "@/services/auth/auth.api";
+import { RegisterPayload } from "@/services/auth/auth.type";
+import { registerSchema } from "@/services/auth/auth.validation";
 
 const defaultValues = {
-  name: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
+  name: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
 };
 
 const RegisterForm = () => {
   const router = useRouter();
-  const { mutateAsync: register, isPending } = useRegister();
+  const { mutateAsync: register, isPending } = useRegisterMutate();
 
-  const form = useForm<z.infer<typeof registerSchema>>({
+  const form = useForm<RegisterPayload>({
     resolver: zodResolver(registerSchema),
     defaultValues,
   });
 
-  const handleSubmit = async (values: z.infer<typeof registerSchema>) => {
+  const handleSubmit = async (values: RegisterPayload) => {
     try {
       await register({
         name: values.name,
         email: values.email,
         password: values.password,
       });
-      toast.success('Registered successfully!');
-      router.push('/');
+      toast.success("Registered successfully!");
+      router.push("/");
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : 'Registration failed';
+        error instanceof Error ? error.message : "Registration failed";
       toast.error(message);
     }
   };
@@ -153,12 +153,12 @@ const RegisterForm = () => {
             />
 
             <Button
-              style={{ marginTop: '2rem' }}
+              style={{ marginTop: "2rem" }}
               type="submit"
               disabled={isPending}
               className="w-full dark:bg-slate-800 dark:text-white"
             >
-              {isPending ? 'Registering...' : 'Register'}
+              {isPending ? "Registering..." : "Register"}
             </Button>
           </form>
         </Form>

@@ -1,35 +1,35 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { toast } from 'react-toastify';
+import React from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "react-toastify";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import RHFTextField from '@/components/forms/rhf-input';
-import loginSchema from '@/validations/auth/login.validation';
-import FormProvider from '@/providers/FormProvider';
-import { useLogin } from '@/services/auth/login.api';
+} from "@/components/ui/card";
+import RHFTextField from "@/components/forms/rhf-input";
+import FormProvider from "@/providers/FormProvider";
+import { useLoginMutate } from "@/services/auth/auth.api";
+import { loginSchema } from "@/services/auth/auth.validation";
+import { LoginPayload } from "@/services/auth/auth.type";
 
 const defaultValues = {
-  email: '',
-  password: '',
+  email: "",
+  password: "",
 };
 
 const LoginForm = () => {
   const router = useRouter();
-  const { mutateAsync: login, isPending } = useLogin();
+  const { mutateAsync: login, isPending } = useLoginMutate();
 
-  const methods = useForm<z.infer<typeof loginSchema>>({
+  const methods = useForm<LoginPayload>({
     resolver: zodResolver(loginSchema),
     defaultValues,
   });
@@ -37,22 +37,19 @@ const LoginForm = () => {
   const onSubmit = methods.handleSubmit(async (data) => {
     try {
       await login(data);
-      toast.success('Logged in successfully!');
-      router.push('/');
+      toast.success("Logged in successfully!");
+      router.push("/");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error('An unexpected error occurred.');
+        toast.error("An unexpected error occurred.");
       }
     }
   });
 
   return (
-    <FormProvider
-      methods={methods}
-      onSubmit={onSubmit}
-    >
+    <FormProvider methods={methods} onSubmit={onSubmit}>
       <Card className="w-full max-w-md mx-auto shadow ">
         <CardHeader>
           <CardTitle>Login</CardTitle>
@@ -80,12 +77,12 @@ const LoginForm = () => {
           />
 
           <Button
-            style={{ marginTop: '2rem' }}
+            style={{ marginTop: "2rem" }}
             type="submit"
             disabled={isPending}
             className="w-full dark:bg-slate-800 dark:text-white"
           >
-            {isPending ? 'Logging in...' : 'Login'}
+            {isPending ? "Logging in..." : "Login"}
           </Button>
         </CardContent>
       </Card>

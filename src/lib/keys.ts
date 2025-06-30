@@ -3,3 +3,7 @@ export const QUERY_KEYS = {
     INFO: "userInfo",
   },
 };
+
+export const COOKIE_KEYS = {
+  ACCESS_TOKEN: "accessToken",
+};
