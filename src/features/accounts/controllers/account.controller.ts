@@ -15,7 +15,7 @@ const useAccountController = () => {
 
   const [filter, setFilter] = useState<AccountFilter>({
     page: 1,
-    pageSize: 10,
+    pageSize: 5,
     sortOrder: "asc",
     sortBy: "name",
   });

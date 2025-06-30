@@ -161,11 +161,11 @@ function DataTable<TData>(
         <div className="flex items-center justify-between space-x-2 py-4">
           <div className="text-sm text-muted-foreground">
             Page {table.getState().pagination.pageIndex + 1} of{" "}
-            {table.getPageCount()}
+            {table.getState().pagination.totalCount}
           </div>
           <Pagination
             currentPage={table.getState().pagination.pageIndex + 1}
-            totalPages={table.getPageCount()}
+            totalPages={table.getState().pagination.totalCount || 1}
             onPageChange={(page) => table.setPageIndex(page - 1)}
           />
         </div>
