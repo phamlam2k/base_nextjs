@@ -10,6 +10,7 @@ const AccountView = () => {
 
   return (
     <div>
+      <p className="text-lg font-semibold text-red-500">Account Management</p>
       <DataTable
         ref={tableRef}
         state={{

@@ -9,9 +9,12 @@ export type AccountFilter = {
   sortBy: keyof AccountListData;
 };
 
+export type ModalType = "create" | "update" | "detail" | null;
+
 const useAccountController = () => {
   const tableRef = useRef<DataTableRef>(null);
   const [accountList, setAccountList] = useState<AccountListData[]>(data);
+  const [modalType, setModalType] = useState<ModalType>();
 
   const [filter, setFilter] = useState<AccountFilter>({
     page: 1,
@@ -75,15 +78,21 @@ const useAccountController = () => {
     }));
   };
 
+  const handleModalTypeChange = (type: ModalType) => {
+    setModalType(type);
+  };
+
   return {
     filter,
     tableRef,
+    modalType,
     accountListData,
 
     createAccount,
     updateAccount,
 
     handleFilterChange,
+    handleModalTypeChange,
   };
 };
 
