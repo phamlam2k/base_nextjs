@@ -1,57 +1,57 @@
 export interface AccountListData {
-  id: string;
+  id: number;
   name: string;
   email: string;
 }
 
 const accountListData: AccountListData[] = [
   {
-    id: "1",
+    id: 1,
     name: "John Doe",
     email: "john.doe@example.com",
   },
   {
-    id: "2",
+    id: 2,
     name: "Jane Smith",
     email: "jane.smith@example.com",
   },
   {
-    id: "3",
+    id: 3,
     name: "Alice Johnson",
     email: "alice.johnson@example.com",
   },
   {
-    id: "4",
+    id: 4,
     name: "Bob Brown",
     email: "bob.brown@example.com",
   },
   {
-    id: "5",
+    id: 5,
     name: "Charlie White",
     email: "charlie.white@example.com",
   },
   {
-    id: "6",
+    id: 6,
     name: "Diana Green",
     email: "diana.green@example.com",
   },
   {
-    id: "7",
+    id: 7,
     name: "Ethan Black",
     email: "ethan.black@example.com",
   },
   {
-    id: "8",
+    id: 8,
     name: "Fiona Blue",
     email: "fiona.blue@example.com",
   },
   {
-    id: "9",
+    id: 9,
     name: "George Yellow",
     email: "george.yellow@example.com",
   },
   {
-    id: "10",
+    id: 10,
     name: "Hannah Purple",
     email: "hannah.purple@example.com",
   },

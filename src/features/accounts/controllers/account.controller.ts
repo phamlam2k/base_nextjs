@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import data, { AccountListData } from "../models/data";
 import { DataTableRef } from "@/components/tables/data-table";
+import { sortByField } from "@/lib/utils";
 
 export type AccountFilter = {
   page: number;
@@ -20,19 +21,15 @@ const useAccountController = () => {
     page: 1,
     pageSize: 5,
     sortOrder: "asc",
-    sortBy: "name",
+    sortBy: "id",
   });
+
+  const totalRecords = useMemo(() => accountList.length, [accountList]);
 
   const accountListData: AccountListData[] = useMemo(() => {
     const { page, pageSize, sortOrder, sortBy } = filter;
 
-    let _accountList = [...accountList];
-
-    if (sortOrder === "asc") {
-      _accountList.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
-    } else {
-      _accountList.sort((a, b) => b[sortBy].localeCompare(a[sortBy]));
-    }
+    let _accountList = sortByField([...accountList], sortBy, sortOrder);
 
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
@@ -46,7 +43,7 @@ const useAccountController = () => {
 
     const newAccount = {
       ...account,
-      id: (_accountList.length + 1).toString(),
+      id: _accountList.length + 1,
     };
 
     _accountList.push(newAccount);
@@ -86,6 +83,7 @@ const useAccountController = () => {
     filter,
     tableRef,
     modalType,
+    totalRecords,
     accountListData,
 
     createAccount,

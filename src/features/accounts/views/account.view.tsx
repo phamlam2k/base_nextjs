@@ -3,21 +3,40 @@
 import DataTable from "@/components/tables/data-table";
 import useAccountController from "../controllers/account.controller";
 import useGetColumnsData from "../hooks/useGetColumnsData";
+import { useMemo } from "react";
 
 const AccountView = () => {
-  const { tableRef, filter, accountListData } = useAccountController();
+  const {
+    tableRef,
+    filter,
+    totalRecords,
+    accountListData,
+    handleFilterChange,
+  } = useAccountController();
   const columns = useGetColumnsData();
+
+  const totalPages = useMemo(() => {
+    return Math.ceil(totalRecords / filter.pageSize);
+  }, [totalRecords, filter.pageSize]);
 
   return (
     <div>
-      <p className="text-lg font-semibold text-red-500">Account Management</p>
+      <div className="w-full mb-4 flex items-center justify-end"></div>
       <DataTable
         ref={tableRef}
+        title="Accounts Management"
         state={{
           pagination: {
-            pageIndex: filter.page,
+            pageIndex: filter.page - 1,
             pageSize: filter.pageSize,
-            totalCount: accountListData.length,
+            totalPages,
+            handleChangePagination: (params) => {
+              handleFilterChange({
+                ...filter,
+                page: params.pageIndex + 1,
+                pageSize: params.pageSize,
+              });
+            },
           },
         }}
         columns={columns}

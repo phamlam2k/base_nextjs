@@ -50,7 +50,7 @@ const LoginForm = () => {
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Card className="w-full max-w-md mx-auto shadow ">
+      <Card className="w-full max-w-md mx-auto shadow">
         <CardHeader>
           <CardTitle>Login</CardTitle>
           <CardDescription>Enter your credentials to login</CardDescription>

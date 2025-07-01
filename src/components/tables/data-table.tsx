@@ -25,7 +25,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trash2 } from "lucide-react";
-import { Pagination } from "@/components/ui/pagination";
+import Pagination from "@/components/ui/pagination";
 
 declare module "@tanstack/react-table" {
   //allows us to define custom properties for our columns
@@ -33,7 +33,10 @@ declare module "@tanstack/react-table" {
     pagination: {
       pageIndex: number;
       pageSize: number;
-      totalCount?: number;
+      totalPages?: number;
+      handleChangePagination?: (
+        params: Omit<TableState["pagination"], "handleChangePagination">
+      ) => void;
     };
   }
 }
@@ -42,10 +45,10 @@ export interface DataTableProps<TData> {
   columns: ColumnDef<any>[];
   data: TData[];
   state?: Partial<TableState>;
-  onChange?: OnChangeFn<RowSelectionState>;
   title?: string;
-  helperText?: string;
   checkedId?: keyof TData;
+
+  onChange?: OnChangeFn<RowSelectionState>;
   onDeleteSelected?: (ids: string[]) => void;
 }
 
@@ -58,14 +61,14 @@ function DataTable<TData>(
   ref: React.ForwardedRef<DataTableRef>
 ) {
   const {
-    columns,
     data,
-    state,
-    onChange,
     title = "Table List",
-    helperText,
-    onDeleteSelected,
+    state,
+    columns,
     checkedId,
+
+    onChange,
+    onDeleteSelected,
   } = props;
 
   const table = useReactTable({
@@ -75,6 +78,7 @@ function DataTable<TData>(
     onRowSelectionChange: onChange,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: true,
     enableRowSelection: true,
   });
 
@@ -96,17 +100,19 @@ function DataTable<TData>(
     <Card>
       <CardHeader className="flex flex-row justify-between items-center">
         <CardTitle>{title}</CardTitle>
-        {selectedRowIds.length > 0 && (
-          <Button
-            size="sm"
-            variant="destructive"
-            onClick={() => onDeleteSelected?.(selectedRowIds)}
-            className="flex gap-1"
-          >
-            <Trash2 className="h-4 w-4" />
-            Delete
-          </Button>
-        )}
+        <div>
+          {selectedRowIds.length > 0 && (
+            <Button
+              size="sm"
+              variant="destructive"
+              onClick={() => onDeleteSelected?.(selectedRowIds)}
+              className="flex gap-1"
+            >
+              <Trash2 className="h-4 w-4" />
+              Delete
+            </Button>
+          )}
+        </div>
       </CardHeader>
       <CardContent>
         <div className="rounded-md border overflow-x-auto">
@@ -158,20 +164,14 @@ function DataTable<TData>(
           </Table>
         </div>
 
-        <div className="flex items-center justify-between space-x-2 py-4">
-          <div className="text-sm text-muted-foreground">
-            Page {table.getState().pagination.pageIndex + 1} of{" "}
-            {table.getState().pagination.totalCount}
-          </div>
-          <Pagination
-            currentPage={table.getState().pagination.pageIndex + 1}
-            totalPages={table.getState().pagination.totalCount || 1}
-            onPageChange={(page) => table.setPageIndex(page - 1)}
-          />
-        </div>
-        {helperText && (
-          <div className="text-xs text-destructive mt-1">{helperText}</div>
-        )}
+        <Pagination
+          limit={table.getState().pagination.pageSize}
+          currentPage={table.getState().pagination.pageIndex + 1}
+          totalPages={table.getState().pagination.totalPages || 1}
+          handleChangePagination={(params) =>
+            table.getState().pagination.handleChangePagination?.(params)
+          }
+        />
       </CardContent>
     </Card>
   );

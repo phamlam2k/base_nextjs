@@ -24,13 +24,13 @@ function AuthView() {
       </TabsList>
       <TabsContent
         value="login"
-        className="p-4 rounded bg-slate-400 dark:bg-zinc-800 shadow"
+        className="p-4 rounded bg-white dark:bg-zinc-800 shadow"
       >
         <LoginForm />
       </TabsContent>
       <TabsContent
         value="register"
-        className="p-4 rounded bg-slate-400 dark:bg-zinc-800 shadow"
+        className="p-4 rounded bg-white dark:bg-zinc-800 shadow"
       >
         <RegisterForm />
       </TabsContent>
