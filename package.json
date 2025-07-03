@@ -33,6 +33,7 @@
     "jest-config": "^30.0.3",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.522.0",
     "next": "14.2.30",
     "next-auth": "^4.24.11",

@@ -1,3 +1,6 @@
+import * as z from "zod";
+import { createAccountSchema } from "./accounts.validation";
+
 export type AccountFilter = {
   page: number;
   pageSize: number;
@@ -10,3 +13,5 @@ export interface AccountListData {
   name: string;
   email: string;
 }
+
+export type AccountFormPayload = z.infer<typeof createAccountSchema>;
